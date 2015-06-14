@@ -1,13 +1,12 @@
-%h2.page-header
+%h1
   Todo list component
 
-.panel.panel-default
-  .panel-heading
-    Todo list
+.todo_panel.panel.default
+  .panel-heading Todo list
   .panel-body
-    #react_todolist
+    #react_todolist_basic
 
 :coffee
 
   $(document).on "page:change", ->
-    window.loadTodoList()
+    loadTodoListBasic()

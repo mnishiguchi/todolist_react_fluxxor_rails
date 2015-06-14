@@ -1,4 +1,4 @@
-window.loadTodoList = ->
+@loadTodoListBasic = ->
 
   # Constants (Action types)
 
@@ -70,11 +70,9 @@ window.loadTodoList = ->
 
   # The main React component (<Application/>)
 
-  FluxMixin = Fluxxor.FluxMixin(React)
-  StoreWatchMixin = Fluxxor.StoreWatchMixin
-
   Application = React.createClass
-    mixins: [FluxMixin, StoreWatchMixin("TodoStore")]
+    mixins: [ Fluxxor.FluxMixin(React),
+              Fluxxor.StoreWatchMixin("TodoStore") ]
 
     getInitialState: ->
       newTodoText: ""
@@ -105,31 +103,31 @@ window.loadTodoList = ->
       clearButton = if anyCompletion then "btn btn-warning" else "btn btn-default"
 
       <div>
-        <form onSubmit={@onSubmitForm}>
+        <form onSubmit={ @onSubmitForm }>
           <div className="form-group">
             <input type="text"
                    placeholder="New Todo"
-                   value={@state.newTodoText}
-                   onChange={@onChangeTodoText}
+                   value={ @state.newTodoText }
+                   onChange={ @onChangeTodoText }
                    className="form-control" />
           </div>
           <div className="form-group">
             <input type="submit"
                    value="Add Todo"
                    className="btn btn-success"/>
-            <button onClick={@onClickClearButton}
-                    className={clearButton}>
+            <button onClick={ @onClickClearButton }
+                    className={ clearButton }>
               Clear Completed
             </button>
           </div>
         </form>
 
-        <TodoItemsList todos={todos}/>
+        <div className="todo_display well">
+          <TodoItemsList todos={ todos }/>
+        </div>
       </div>
 
-  # Rendering the whole component to the target element
+  # Rendering the whole component to the mount node
 
-  target = document.getElementById("react_todolist")
-  if target
-  then React.render <Application flux={flux} />, target
-  else console.log("Couldn't find the target element")
+  if (mountNode = document.getElementById("react_todolist_basic"))
+    React.render <Application flux={ flux } />, mountNode
